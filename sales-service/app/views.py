@@ -26,7 +26,6 @@ def add(request, dispatcher):
 
     config = {"AMQP_URI" : "amqp://guest:**@127.0.0.1:5672"}
     with ClusterRpcProxy(config) as cluster_rpc:
-        import pdb; pdb.set_trace()
         cluster_rpc.http_product_service.rpc_get_product(product_id)
     # do rpc request to get stock from product service
     Sale = Sale.create(Sale_name=Sale_name, stock=stock)
