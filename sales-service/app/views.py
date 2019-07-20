@@ -3,6 +3,7 @@ from playhouse.shortcuts import model_to_dict
 from app.models import Sale
 from app.exceptions import BadRequest, Unauthorized
 from app.db import db
+from nameko.standalone.rpc import ClusterRpcProxy
 
 
 def get(pk=None):
@@ -23,6 +24,10 @@ def add(request, dispatcher):
     if user_id is None or quantity is None or product_id is None:
         raise BadRequest("Sale Id, User  Id and are Quantity required")
 
+    config = {"AMQP_URI" : "amqp://guest:**@127.0.0.1:5672"}
+    with ClusterRpcProxy(config) as cluster_rpc:
+        import pdb; pdb.set_trace()
+        cluster_rpc.http_product_service.rpc_get_product(product_id)
     # do rpc request to get stock from product service
     Sale = Sale.create(Sale_name=Sale_name, stock=stock)
     payload  = {

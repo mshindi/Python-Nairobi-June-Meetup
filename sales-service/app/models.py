@@ -9,5 +9,5 @@ class BaseModel(pw.Model):
 
 class Sale(BaseModel):
     quantity = pw.FloatField(null=False)
-    product_id = pw.IntField(null=False)
-    user_id = pw.IntField(null=False)
+    product_id = pw.CharField(null=False)
+    user_id = pw.CharField(null=False)

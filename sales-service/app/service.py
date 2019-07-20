@@ -1,7 +1,7 @@
 import json
 from app.entrypoints import http
 from nameko.rpc import rpc
-from nameko.events import event_handler
+from nameko.events import event_handler, EventDispatcher
 from app import views
 
 class HTTPSalesService:
