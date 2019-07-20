@@ -1,31 +1,17 @@
 import json
-from app.models import User
-from app.exceptions import BadRequest, Unauthorized
+import requests
+from app.models import Notification
 from app.db import db
 
 
-def login(request):
-    data = json.loads(request.data)
-    user_name = data.get("user_name")
-    password = data.get("password")
-    if password is None or user_name is None:
-        raise BadRequest("User Name and Password are required")
-    user = User.get(User.user_name == user_name)
-    if user is None or user.password != password:
-        raise Unauthorized("Invalid user name or password")
-    return 200, json.dumps({"success": True})
-
-
-def register(request):
-    data = json.loads(request.data)
-    user_name = data.get("user_name")
-    password = data.get("password")
-    if password is None or user_name is None:
-        raise BadRequest("User Name and Password are required")
-    user = User.create(password=password, user_name=user_name)
-    return 201, json.dumps({"user_name": user.user_name})
+def push_notification(payload):
+    data = json.loads(payload)
+    print(data)
+    requests.post(
+        "https://webhook.site/a1b56d13-8f3d-4019-95c5-03ea5760f66e", data
+    )
 
 
 def create_tables():
     with db:
-        db.create_tables([User])
+        db.create_tables([Notification])

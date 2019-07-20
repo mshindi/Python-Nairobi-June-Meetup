@@ -4,6 +4,7 @@ from nameko.rpc import rpc
 from nameko.events import event_handler
 from app import views
 
+
 class HTTPProductService:
     name = "http_product_service"
 
@@ -35,9 +36,7 @@ class HTTPProductService:
     @event_handler("http_sales_service", "update_stock")
     def update_stock(self, payload):
         data = json.loads(payload)
-        views.edit_stock(
-            data.get(stock),
-            data.get(product_id))
+        views.edit_stock(data.get("stock"), data.get("product_id"))
 
     @rpc
     def rpc_get_product(self, pk):
