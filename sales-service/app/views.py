@@ -24,11 +24,7 @@ def add(request, dispatcher):
     if user_id is None or quantity is None or product_id is None:
         raise BadRequest("Sale Id, User  Id and are Quantity required")
 
-    config = {"AMQP_URI" : "amqp://guest:**@127.0.0.1:5672"}
-    with ClusterRpcProxy(config) as cluster_rpc:
-        cluster_rpc.http_product_service.rpc_get_product(product_id)
-    # do rpc request to get stock from product service
-    Sale = Sale.create(Sale_name=Sale_name, stock=stock)
+    sale = Sale.create(Sale_name=Sale_name, stock=stock)
     payload  = {
         "stock": (stock - quantity),
         "product_id": product_id
