@@ -1,10 +1,12 @@
 import json
+from nameko.events import EventDispatcher
 from app.entrypoints import http
 from app import views
 
 
 class HTTPAuthService:
     name = "http_auth_service"
+    dispatch = EventDispatcher()
 
     @http("GET", "/auth/init-db")
     def init_db(self, request):
@@ -17,4 +19,4 @@ class HTTPAuthService:
 
     @http("POST", "/auth/register")
     def register(self, request):
-        return views.register(request)
+        return views.register(request, self.dispatch)
